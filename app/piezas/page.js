@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Badge from '@/components/Badge';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -12,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 
 const CATEGORIAS = ['', 'Motor', 'Frenos', 'Suspensión', 'Eléctrico', 'Carrocería', 'Otros'];
 
-export default function PiezasPage() {
+function PiezasContent() {
   const searchParams = useSearchParams();
   const [piezas, setPiezas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -138,4 +136,8 @@ export default function PiezasPage() {
       )}
     </div>
   );
+}
+
+export default function Page() {
+  return <Suspense><PiezasContent /></Suspense>;
 }

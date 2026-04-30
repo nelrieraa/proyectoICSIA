@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Badge from '@/components/Badge';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -15,7 +13,7 @@ const PRIORIDADES = ['', 'Baja', 'Media', 'Alta', 'Crítica'];
 
 const PRIORIDAD_ICONO = { Baja: '🟢', Media: '🟡', Alta: '🟠', Crítica: '🔴' };
 
-export default function DiagnosticosPage() {
+function DiagnosticosContent() {
   const searchParams = useSearchParams();
   const [diagnosticos, setDiagnosticos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,4 +141,8 @@ export default function DiagnosticosPage() {
       )}
     </div>
   );
+}
+
+export default function Page() {
+  return <Suspense><DiagnosticosContent /></Suspense>;
 }

@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Badge from '@/components/Badge';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -24,7 +22,7 @@ function getMesesDisponibles() {
   return meses;
 }
 
-export default function ReparacionesPage() {
+function ReparacionesContent() {
   const searchParams = useSearchParams();
   const [reparaciones, setReparaciones] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -168,4 +166,8 @@ export default function ReparacionesPage() {
       )}
     </div>
   );
+}
+
+export default function Page() {
+  return <Suspense><ReparacionesContent /></Suspense>;
 }

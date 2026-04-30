@@ -1,8 +1,6 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Badge from '@/components/Badge';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -12,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 
 const ESTADOS = ['', 'Activo', 'En Reparación', 'Reparado', 'Dado de Baja'];
 
-export default function VehiculosPage() {
+function VehiculosContent() {
   const searchParams = useSearchParams();
   const [vehiculos, setVehiculos] = useState([]);
   const [marcas, setMarcas] = useState([]);
@@ -156,4 +154,8 @@ export default function VehiculosPage() {
       )}
     </div>
   );
+}
+
+export default function Page() {
+  return <Suspense><VehiculosContent /></Suspense>;
 }
