@@ -7,19 +7,12 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const buscar = searchParams.get('buscar') || '';
     const estado = searchParams.get('estado') || '';
-    const mes = searchParams.get('mes') || '';
 
     const where = {};
     if (buscar) {
       where.descripcion = { [Op.like]: `%${buscar}%` };
     }
     if (estado) where.estado = estado;
-    if (mes) {
-      const [year, month] = mes.split('-');
-      const inicio = new Date(year, month - 1, 1);
-      const fin = new Date(year, month, 0);
-      where.fecha_entrada = { [Op.between]: [inicio, fin] };
-    }
 
     const reparaciones = await Reparacion.findAll({
       where,

@@ -7,7 +7,6 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const buscar = searchParams.get('buscar') || '';
     const estado = searchParams.get('estado') || '';
-    const marca = searchParams.get('marca') || '';
 
     const where = {};
     if (buscar) {
@@ -18,7 +17,6 @@ export async function GET(request) {
       ];
     }
     if (estado) where.estado = estado;
-    if (marca) where.marca = marca;
 
     const vehiculos = await Vehiculo.findAll({
       where,

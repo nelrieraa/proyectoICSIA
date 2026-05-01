@@ -36,7 +36,6 @@ export default function VehiculoDetallePage() {
 
   return (
     <div className="max-w-4xl">
-      {/* Breadcrumb con navegación contextual */}
       <div className="flex items-center gap-2 mb-6 text-sm text-gray-500">
         <Link href="/vehiculos" className="hover:text-blue-600">Vehículos</Link>
         <span>/</span>
@@ -49,7 +48,6 @@ export default function VehiculoDetallePage() {
         <span className="text-gray-900 font-mono font-semibold">{vehiculo.matricula}</span>
       </div>
 
-      {/* Cabecera vehículo */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
@@ -81,7 +79,6 @@ export default function VehiculoDetallePage() {
         </div>
       </div>
 
-      {/* Reparaciones del vehículo */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h2 className="font-semibold text-gray-900">🔧 Historial de reparaciones</h2>

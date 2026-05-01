@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import Badge from '@/components/Badge';
 import ConfirmModal from '@/components/ConfirmModal';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import PageHeader from '@/components/PageHeader';
@@ -57,7 +56,6 @@ function PiezasContent() {
     <div>
       <PageHeader titulo="Piezas y Repuestos" descripcion="Inventario de piezas del taller" botonTexto="Nueva Pieza" botonHref="/piezas/nuevo" />
 
-      {/* 3 filtros: búsqueda + categoría + bajo stock */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-6">
         <div className="flex flex-wrap gap-3 items-center">
           <input type="text" placeholder="🔍 Buscar por nombre o referencia..." value={buscar} onChange={(e) => setBuscar(e.target.value)} className="input flex-1 min-w-52" />

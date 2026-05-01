@@ -10,18 +10,6 @@ import { useSearchParams } from 'next/navigation';
 
 const ESTADOS = ['', 'Pendiente', 'En Proceso', 'Completada', 'Cancelada'];
 
-function getMesesDisponibles() {
-  const meses = [];
-  const ahora = new Date();
-  for (let i = 0; i < 6; i++) {
-    const d = new Date(ahora.getFullYear(), ahora.getMonth() - i, 1);
-    const val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-    const label = d.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
-    meses.push({ val, label });
-  }
-  return meses;
-}
-
 function ReparacionesContent() {
   const searchParams = useSearchParams();
   const [reparaciones, setReparaciones] = useState([]);
@@ -29,20 +17,18 @@ function ReparacionesContent() {
   const [error, setError] = useState(null);
   const [buscar, setBuscar] = useState('');
   const [estado, setEstado] = useState(searchParams.get('estado') || '');
-  const [mes, setMes] = useState('');
   const [eliminarId, setEliminarId] = useState(null);
-  const meses = getMesesDisponibles();
 
   useEffect(() => {
     let mounted = true;
     const timer = setTimeout(() => cargarReparaciones(mounted), 300);
     return () => { mounted = false; clearTimeout(timer); };
-  }, [buscar, estado, mes]);
+  }, [buscar, estado]);
 
   async function cargarReparaciones(mounted = true) {
     try {
       setLoading(true);
-      const params = new URLSearchParams({ buscar, estado, mes });
+      const params = new URLSearchParams({ buscar, estado });
       const res = await fetch(`/api/reparaciones?${params}`);
       if (!res.ok) throw new Error('Error al cargar reparaciones');
       const data = await res.json();
@@ -70,19 +56,14 @@ function ReparacionesContent() {
     <div>
       <PageHeader titulo="Reparaciones" descripcion="Gestión de reparaciones del taller" botonTexto="Nueva Reparación" botonHref="/reparaciones/nuevo" />
 
-      {/* 3 filtros combinados */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-6">
         <div className="flex flex-wrap gap-3">
           <input type="text" placeholder="🔍 Buscar en descripción..." value={buscar} onChange={(e) => setBuscar(e.target.value)} className="input flex-1 min-w-52" />
           <select value={estado} onChange={(e) => setEstado(e.target.value)} className="input w-44">
             {ESTADOS.map((e) => <option key={e} value={e}>{e || 'Todos los estados'}</option>)}
           </select>
-          <select value={mes} onChange={(e) => setMes(e.target.value)} className="input w-44">
-            <option value="">Todos los meses</option>
-            {meses.map((m) => <option key={m.val} value={m.val}>{m.label}</option>)}
-          </select>
-          {(buscar || estado || mes) && (
-            <button onClick={() => { setBuscar(''); setEstado(''); setMes(''); }} className="btn-secondary text-xs">✕ Limpiar</button>
+          {(buscar || estado) && (
+            <button onClick={() => { setBuscar(''); setEstado(''); }} className="btn-secondary text-xs">✕ Limpiar</button>
           )}
         </div>
       </div>
@@ -129,7 +110,6 @@ function ReparacionesContent() {
                         </Link>
                       ) : '—'}
                     </td>
-                    {/* Navegación contextual: reparación → cliente */}
                     <td className="table-cell">
                       {r.vehiculo?.cliente ? (
                         <Link href={`/clientes/${r.vehiculo.cliente.id}`} className="text-sm text-blue-600 hover:underline">

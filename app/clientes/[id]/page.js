@@ -49,7 +49,6 @@ export default function ClienteDetallePage() {
         <span className="text-gray-900 font-medium">{cliente.nombre} {cliente.apellidos}</span>
       </div>
 
-      {/* Cabecera */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
@@ -82,7 +81,6 @@ export default function ClienteDetallePage() {
         </div>
       </div>
 
-      {/* Resumen rápido */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-center">
           <p className="text-2xl font-bold text-gray-900">{cliente.vehiculos?.length || 0}</p>
@@ -100,11 +98,10 @@ export default function ClienteDetallePage() {
         </div>
       </div>
 
-      {/* Vehículos del cliente — Navegación contextual */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h2 className="font-semibold text-gray-900">🚗 Vehículos del cliente</h2>
-          <Link href={`/vehiculos/nuevo`} className="text-blue-600 text-sm hover:underline">+ Añadir vehículo</Link>
+          <Link href="/vehiculos/nuevo" className="text-blue-600 text-sm hover:underline">+ Añadir vehículo</Link>
         </div>
 
         {!cliente.vehiculos || cliente.vehiculos.length === 0 ? (

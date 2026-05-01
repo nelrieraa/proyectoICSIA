@@ -56,7 +56,6 @@ export default function ClientesPage() {
     <div>
       <PageHeader titulo="Clientes" descripcion="Gestión de clientes del taller" botonTexto="Nuevo Cliente" botonHref="/clientes/nuevo" />
 
-      {/* Filtros */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-6">
         <input
           type="text"
@@ -67,7 +66,6 @@ export default function ClientesPage() {
         />
       </div>
 
-      {/* Tabla */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {loading ? (
           <LoadingSpinner />

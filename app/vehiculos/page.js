@@ -13,32 +13,26 @@ const ESTADOS = ['', 'Activo', 'En Reparación', 'Reparado', 'Dado de Baja'];
 function VehiculosContent() {
   const searchParams = useSearchParams();
   const [vehiculos, setVehiculos] = useState([]);
-  const [marcas, setMarcas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [buscar, setBuscar] = useState('');
   const [estado, setEstado] = useState(searchParams.get('estado') || '');
-  const [marca, setMarca] = useState('');
   const [eliminarId, setEliminarId] = useState(null);
 
   useEffect(() => {
     let mounted = true;
     const timer = setTimeout(() => cargarVehiculos(mounted), 300);
     return () => { mounted = false; clearTimeout(timer); };
-  }, [buscar, estado, marca]);
+  }, [buscar, estado]);
 
   async function cargarVehiculos(mounted = true) {
     try {
       setLoading(true);
-      const params = new URLSearchParams({ buscar, estado, marca });
+      const params = new URLSearchParams({ buscar, estado });
       const res = await fetch(`/api/vehiculos?${params}`);
       if (!res.ok) throw new Error('Error al cargar vehículos');
       const data = await res.json();
-      if (mounted) {
-        setVehiculos(data);
-        const marcasUnicas = [...new Set(data.map((v) => v.marca))].sort();
-        setMarcas(marcasUnicas);
-      }
+      if (mounted) setVehiculos(data);
     } catch (err) {
       if (mounted) setError(err.message);
     } finally {
@@ -62,7 +56,6 @@ function VehiculosContent() {
     <div>
       <PageHeader titulo="Vehículos" descripcion="Inventario de vehículos del taller" botonTexto="Nuevo Vehículo" botonHref="/vehiculos/nuevo" />
 
-      {/* Filtros — 3 filtros combinados */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-6">
         <div className="flex flex-wrap gap-3">
           <input
@@ -75,12 +68,8 @@ function VehiculosContent() {
           <select value={estado} onChange={(e) => setEstado(e.target.value)} className="input w-44">
             {ESTADOS.map((e) => <option key={e} value={e}>{e || 'Todos los estados'}</option>)}
           </select>
-          <select value={marca} onChange={(e) => setMarca(e.target.value)} className="input w-40">
-            <option value="">Todas las marcas</option>
-            {marcas.map((m) => <option key={m} value={m}>{m}</option>)}
-          </select>
-          {(buscar || estado || marca) && (
-            <button onClick={() => { setBuscar(''); setEstado(''); setMarca(''); }} className="btn-secondary text-xs">
+          {(buscar || estado) && (
+            <button onClick={() => { setBuscar(''); setEstado(''); }} className="btn-secondary text-xs">
               ✕ Limpiar
             </button>
           )}
@@ -120,7 +109,6 @@ function VehiculosContent() {
                       <p className="font-medium text-gray-900">{v.marca} {v.modelo}</p>
                       <p className="text-xs text-gray-400">{v.anio || '—'} · {v.color || '—'}</p>
                     </td>
-                    {/* Navegación contextual: desde vehículo → cliente */}
                     <td className="table-cell">
                       {v.cliente ? (
                         <Link href={`/clientes/${v.cliente.id}`} className="text-blue-600 hover:underline text-sm font-medium">

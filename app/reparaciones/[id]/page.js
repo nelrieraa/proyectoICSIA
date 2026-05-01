@@ -36,7 +36,6 @@ export default function ReparacionDetallePage() {
 
   return (
     <div className="max-w-3xl">
-      {/* Breadcrumb */}
       <div className="flex items-center gap-2 mb-6 text-sm text-gray-500 flex-wrap">
         <Link href="/reparaciones" className="hover:text-blue-600">Reparaciones</Link>
         <span>/</span>
@@ -45,7 +44,6 @@ export default function ReparacionDetallePage() {
         <span className="text-gray-900 font-medium">Reparación #{reparacion.id}</span>
       </div>
 
-      {/* Cabecera */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
         <div className="flex items-start justify-between mb-4">
           <div>
@@ -75,15 +73,14 @@ export default function ReparacionDetallePage() {
             <p className="text-xs text-gray-500 uppercase tracking-wide">Pieza usada</p>
             <p className="font-medium mt-1">
               {reparacion.pieza ? (
-                <Link href={`/piezas`} className="text-blue-600 hover:underline">{reparacion.pieza.nombre}</Link>
+                <Link href="/piezas" className="text-blue-600 hover:underline">{reparacion.pieza.nombre}</Link>
               ) : '— ninguna'}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Vehículo y cliente — Navegación contextual */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {reparacion.vehiculo && (
           <Link href={`/vehiculos/${reparacion.vehiculo.id}`}>
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
